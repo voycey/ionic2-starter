@@ -6,6 +6,7 @@
 
  Please feel free to submit any comments / pull requests to help me out as I learn through stuff (I am aware its really early and nothing is finalised)!
 
+***
 
 **Note (9/15/15): this is not ready to be used yet! We are fixing a number of issues for a release at the end of September. Many things do not work but we are making the repo public to make it easier for us to finish development on Ionic CLI, etc.**
 

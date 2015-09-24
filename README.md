@@ -1,5 +1,12 @@
 # Ionic 2 Starter: Developer Preview
 
+##Fork Notes - Daniel Voyce
+ I am struggling through with some various bits of Angular 2 and Ionic so this is basically a sandbox for me, it might help other people who are trying to do things but cant quite figure them out, I am not saying the way I am doing things is the correct way (infact you can be pretty sure that they are probably pretty wrong)
+ but I will try and only commit working code to the master branch.
+
+ Please feel free to submit any comments / pull requests to help me out as I learn through stuff (I am aware its really early and nothing is finalised)!
+
+
 **Note (9/15/15): this is not ready to be used yet! We are fixing a number of issues for a release at the end of September. Many things do not work but we are making the repo public to make it easier for us to finish development on Ionic CLI, etc.**
 
 This is a simple developer preview of an Ionic 2 starter project, the next generation of [Ionic](http://ionicframework.com/). Ionic is an open-source mobile app development SDK that makes it easy to build top quality mobile apps with web technologies.

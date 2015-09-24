@@ -7,6 +7,7 @@ import {SignupPage} from './signup/signup';
 import {TabsPage} from './tabs/tabs';
 import {ListPage} from './list/list';
 import {GridPage} from './grid/grid';
+import {UsersPage} from './users/users';
 
 
 @App({
@@ -29,6 +30,7 @@ class MyApp {
       { title: 'Tabs', component: TabsPage },
       { title: 'List', component: ListPage },
       { title: 'Grid Icons', component: GridPage },
+      { title: 'Users', component: UsersPage }
     ];
 
     this.rootPage = GettingStartedPage;
@@ -40,7 +42,7 @@ class MyApp {
 
       // The platform is now ready. Note: if this callback fails to fire, follow
       // the Troubleshooting guide for a number of possible solutions:
-      //
+
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       //

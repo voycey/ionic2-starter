@@ -7,7 +7,7 @@ import {SignupPage} from './signup/signup';
 import {TabsPage} from './tabs/tabs';
 import {ListPage} from './list/list';
 import {GridPage} from './grid/grid';
-import {UsersPage} from './users/users';
+import {UsersPage, UserViewPage} from './users/users';
 
 
 @App({
@@ -31,6 +31,7 @@ class MyApp {
       { title: 'List', component: ListPage },
       { title: 'Grid Icons', component: GridPage },
       { title: 'Users', component: UsersPage }
+      { title: 'User View', component: UserViewPage }
     ];
 
     this.rootPage = GettingStartedPage;

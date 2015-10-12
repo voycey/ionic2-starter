@@ -12,12 +12,80 @@ var gulp = require('gulp'),
     autoprefixer = require('gulp-autoprefixer'),
     watch = require('gulp-watch'),
     browserSync = require('browser-sync'),
+    through2 = require('through2'),
+    ts = require('typescript'),
+    fs = require('fs'),
     reload = browserSync.reload;
 
 
 var IONIC_DIR = "node_modules/ionic-framework/"
 //var IONIC_DIR = "node_modules/ionic2/dist/"
 
+gulp.task('routes', function(){
+  var routes = [];
+  var appPath;
+
+  return gulp.src('www/app/**/*.{js,ts}')
+    .pipe(through2.obj(function(file, enc, next){
+      var contents = file.contents.toString();
+      var sourceFile = ts.createSourceFile('', contents, ts.ScriptTarget.ES6, true);
+      ts.forEachChild(sourceFile, function(node){
+        if (node.decorators) {
+          for (var  i = 0, ii = node.decorators.length; i < ii; i++) {
+            try {
+              if (node.decorators[i].expression.expression.text === "Page") {
+                var route = routes.filter(function(e){ return e.path === file.path });
+                if (route.length > 0) {
+                  route[0].pages.push(node.name.text);
+                } else {
+                  routes.push({ pages: [node.name.text], path: file.path });
+                }
+              } else if (node.decorators[i].expression.expression.text === "App") {
+                appPath = file.path;
+              }
+            } catch(e) {}
+          }
+        }
+      });
+
+      next();
+    }))
+    .on('end', function(){
+      var i = 0;
+      routes = generateImportPaths(appPath, routes);
+      var importStatements = generateImportStatements(routes).join("");
+      var appEntryFile = fs.readFileSync(appPath, 'utf-8');
+      appEntryFile = importStatements + appEntryFile;
+      fs.writeFileSync(appPath, appEntryFile);
+    });
+})
+
+function generateImportPaths(appPath, routes) {
+  routes.forEach(function(route){
+    // remove .ts or .js
+    path = route.path.slice(0, -3);
+
+    // get path relative to file where @App is
+    var i = 0;
+    var ii = appPath.length;
+    var importPath;
+    while(i < ii && appPath.charAt(i) === path.charAt(i)) i++;
+    importPath = path.substring(i, path.length);
+
+    // make it relative
+    importPath = './' + importPath;
+
+    route.path = importPath;
+  })
+
+  return routes;
+}
+
+function generateImportStatements(routes){
+  return routes.map(function(route){
+    return "import {" + route.pages.join(", ") + "} from '" + route.path + "';\n";
+  });
+}
 
 /******************************************************************************
  * watch
@@ -166,3 +234,48 @@ var flagConfig = {
   default: { port: 8100 }
 };
 var flags = minimist(process.argv.slice(2), flagConfig);
+
+
+function findIonicViewClass(output){
+  var programBody = output.ast.program.body;
+
+  // var MyClass = (function () {
+  var varNodes = programBody.filter(function(node) {
+    return node.type === "VariableDeclaration";
+  });
+  if (varNodes) {
+    return varNodes.map(function(node){
+      try {
+        var declarationBodies = node.declarations[0].init.callee.body.body;
+
+        // Get all expressions, we want one like this:
+        // MyClass = (0, _ionicIonic.IonicView)({ ... })(MyClass)
+        var expressionNodes = declarationBodies.filter(function(node){
+          return node.type === "ExpressionStatement";
+        });
+        for (var i = 0, ii = expressionNodes.length; i < ii; i++) {
+          try {
+            // two expressions, 0 and _ionicIonic.IonicView
+            // (0, _ionicIonic.IonicView)
+            var expressions = expressionNodes[i].expression.right.left.callee.callee.expressions;
+            for (var j = 0, jj = expressions.length; j < jj; j++) {
+              if (expressions[j].property && expressions[j].property.name &&
+                  expressions[j].property.name === "IonicView") {
+
+                // Get class name from expression argument
+                // (0, _ionicIonic.IonicView)({ ... })(MyClass)
+                return expressionNodes[i].expression.right.left.arguments[0].name;
+              }
+            }
+            return null
+          } catch(e) {} //Keep going,
+        }
+        return null;
+      } catch (e) {
+        return null;
+      }
+    }).filter(function(e){ return e !== null });
+  } else {
+    return [];
+  }
+}

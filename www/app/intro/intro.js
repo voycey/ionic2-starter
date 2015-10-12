@@ -1,8 +1,8 @@
 import {ViewQuery, QueryList} from 'angular2/angular2';
-import {IonicApp, IonicView, NavController, Slides} from 'ionic/ionic';
+import {IonicApp, Page, NavController, Slides} from 'ionic/ionic';
 
 
-@IonicView({
+@Page({
   templateUrl: 'app/intro/intro.html'
 })
 export class IntroPage {
@@ -21,7 +21,7 @@ export class IntroPage {
 
     // Get the child slider.
     // Note: this will be getting cleaner in a future Angular 2 release
-    slides.onChange((c) => {
+    slides.changes.toRx().subscribe(() => {
       this.mySlider = slides.first;
     });
   }

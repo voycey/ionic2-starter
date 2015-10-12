@@ -1,9 +1,7 @@
 module.exports = {
   entry: [
     "zone.js",
-    "traceur-runtime",
     "reflect-metadata",
-    "rtts_assert/rtts_assert",
     "angular2/angular2",
     "ionic/ionic",
     "web-animations.min",
@@ -19,9 +17,15 @@ module.exports = {
       {
         test: /\.js$/,
         loader: "awesome-typescript-loader?doTypeCheck=false&useBabel=true&useWebpackText=true",
-        include: /app\//
+        include: /www\/app\//,
+        exclude: /node_modules/
       },
-      { test: /\.ts$/, loader: "awesome-typescript-loader", include: /app\// }
+      {
+        test: /\.ts$/,
+        loader: "awesome-typescript-loader",
+        include: /www\/app\//,
+        exclude: /node_modules/
+       }
     ]
   },
   resolve: {
@@ -31,9 +35,11 @@ module.exports = {
       "node_modules/ionic-framework/node_modules", // angular is a dependency of ionic
       "node_modules/ionic-framework/js" // for web-animations polyfill
 
-     // "node_modules/ionic2/dist/src/es5/common", // driftyco/ionic2 repo (master)
-     // "node_modules/ionic2/node_modules",
-     // "node_modules/ionic2/dist/js"
+      // For development using local ionic2, see README
+      //"node_modules/ionic2/dist/src/es5/common", // driftyco/ionic2 repo (master)
+      //"dist/src/es5/common",
+      //"node_modules/ionic2/node_modules",
+      //"node_modules/ionic2/dist/js"
     ],
     extensions: ["", ".js", ".ts"]
   }

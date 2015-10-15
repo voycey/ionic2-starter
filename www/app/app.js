@@ -30,7 +30,7 @@ class MyApp {
       { title: 'Tabs', component: TabsPage },
       { title: 'List', component: ListPage },
       { title: 'Grid Icons', component: GridPage },
-      { title: 'Users', component: UsersPage }
+      { title: 'Users', component: UsersPage },
       { title: 'User View', component: UserViewPage }
     ];
 

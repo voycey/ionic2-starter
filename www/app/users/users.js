@@ -1,6 +1,6 @@
-import {IonicApp, IonicView, NavController, NavParams} from 'ionic/ionic';
+import {IonicApp, Page, NavController, NavParams} from 'ionic/ionic';
 
-@IonicView({
+@Page({
     templateUrl: 'app/users/users.html'
 })
 
@@ -19,7 +19,7 @@ export class UsersPage {
     }
 }
 
-@IonicView({
+@Page({
     templateUrl: 'app/users/user-view.html'
 })
 export class UserViewPage {

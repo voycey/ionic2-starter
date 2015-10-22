@@ -8,8 +8,6 @@
 
 ***
 
-**Note (9/15/15): this is not ready to be used yet! We are fixing a number of issues for a release at the end of September. Many things do not work but we are making the repo public to make it easier for us to finish development on Ionic CLI, etc.**
-
 This is a simple developer preview of an Ionic 2 starter project, the next generation of [Ionic](http://ionicframework.com/). Ionic is an open-source mobile app development SDK that makes it easy to build top quality mobile apps with web technologies.
 
 Ionic 2 is based on the new [2.x version of AngularJS](https://angular.io/), and comes with many significant performance, usability, and feature improvements.
